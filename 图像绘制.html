@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        img{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<canvas width="800" height="400"></canvas>
+<script>
+    window.onload = function () {
+        var canvas = document.querySelector("canvas");
+        var cxt = canvas.getContext("2d");
+        var img = new Image(100,100);
+        img.src='images/youyouyou.jpg';
+        cxt.drawImage(img,200, 100,300,200)
+    }
+
+</script>
+</body>
+</html>

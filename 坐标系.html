@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    canvas {
+        border: 1px solid;
+    }
+</style>
+<body>
+<div>
+    <canvas width="800" height="400"></canvas>
+</div>
+<script>
+    var canvas = document.querySelector("canvas");
+    var cxt = canvas.getContext("2d");
+//    var padding = {
+//        value: 20
+//    };
+//    var arrow = {
+//        width: 20,
+//        height: 16
+//    };
+//    //    坐标系
+//    cxt.beginPath();
+//    cxt.moveTo(padding.value + 0.5, padding.value + 0.5);
+//    cxt.lineTo(padding.value + 0.5, canvas.height - padding.value + 0.5);
+//    cxt.lineTo(canvas.width - padding.value + 0.5, canvas.height - padding.value + 0.5);
+//    cxt.stroke();
+//    //    箭头
+//    cxt.beginPath();
+//    cxt.moveTo(padding.value + 0.5 - arrow.width / 2, padding.value + 0.5 + arrow.height);
+//    cxt.lineTo(padding.value + 0.5, padding.value + 0.5);
+//    cxt.lineTo(padding.value + 0.5 + arrow.width / 2, padding.value + 0.5 + arrow.height);
+//    cxt.stroke();
+//    cxt.moveTo(canvas.width - padding.value + 0.5 - arrow.height, canvas.height - padding.value + 0.5 - arrow.width / 2);
+//    cxt.lineTo(canvas.width - padding.value + 0.5, canvas.height - padding.value + 0.5);
+//    cxt.lineTo(canvas.width - padding.value + 0.5 - arrow.height, canvas.height - padding.value + 0.5 + arrow.width / 2);
+//    cxt.stroke();
+//
+//    //    画点
+//    var origin = {
+//        x: padding.value,
+//        y: canvas.height - padding.value
+//    };
+        document.onmousedown = function (ev) {
+            var ev = ev || window.event;
+            cxt.beginPath();
+            cxt.moveTo(origin.x+0.5, origin.y+0.5);
+            cxt.lineTo(ev.clientX+0.5, ev.clientY+0.5);
+            cxt.fillRect(ev.clientX - canvas.offsetLeft, ev.clientY - canvas.offsetTop, 5, 5);
+            cxt.stroke();
+            canvas.onmouseup = function () {
+                document.onmouseup = null;
+            }
+        };
+        cxt.beginPath();
+        var point = [[10, 10], [40, 27], [70, 70], [100, 30],[130,90],[160,140],[190,82]];
+        point.forEach(function (val, i, arr) {
+            console.log(val);
+            cxt.fillRect(origin.x + val[0], origin.y - val[1], 3, 3);
+        });
+        point.forEach(function (val, i) {
+            cxt.lineTo(origin.x + val[0] + 1, origin.y - val[1] + 1);
+        });
+        cxt.stroke();
+//    cxt.beginPath();
+//    var arr = [150, 120, 150, 180, 140, 190, 190, 160, 120, 145, 220, 99];
+//    var lenght = (canvas.width + padding.value) / arr.length;
+//    arr.forEach(function (val, i, arr) {
+//        cxt.fillRect(origin.x + i * lenght - 1, origin.y - val - 2, 3, 3)
+//    });
+//    arr.forEach(function (val, i) {
+//        cxt.lineTo(origin.x + i * lenght, origin.y - val)
+//    });
+//    cxt.stroke();
+</script>
+</body>
+</html>

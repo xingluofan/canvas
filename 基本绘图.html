@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas>
+    当前浏览器不支持canvas,换吧
+</canvas>
+<script>
+    var canvas = document.querySelector("canvas");
+    var cxt = canvas.getContext("2d");
+    canvas.width = 700;
+    canvas.height = 600;
+    //    cxt.beginPath();
+    //    cxt.moveTo(100, 100);
+    //    cxt.lineTo(300, 300);
+    //    cxt.lineTo(100, 300);
+    //    cxt.fillStyle = 'yellow';
+    //    cxt.fill();
+    //    cxt.lineTo(100, 100);
+    //    cxt.strokeStyle = 'red';
+    //    cxt.stroke();
+    //    cxt.closePath();
+    //    cxt.beginPath();
+    //    cxt.fillRect(20,20,100,100);
+    //    cxt.strokeRect(200,200,50,50);
+    //    cxt.clearRect(40,40,60,60);
+    //    cxt.closePath();
+    //    cxt.beginPath();
+    //    cxt.arc(80,80,60,0,Math.PI/2,true);
+    //    //cxt.fill();
+    //    cxt.stroke();
+    //    cxt.closePath();
+    //    cxt.beginPath();
+    //    cxt.quadraticCurveTo(50,50,100,100);
+    //    cxt.closePath();
+
+    function draw(x1, y1, width, height, x2, y2, x3, y3, x4) {
+        cxt.fillRect(x1, y1, width, height);
+        cxt.beginPath();
+        cxt.moveTo(x2, y2);
+        cxt.lineTo(x3, y3);
+        cxt.lineTo(x4, y3);
+        cxt.fillStyle = 'white';
+        cxt.fill();
+        cxt.closePath();
+        cxt.beginPath();
+        cxt.clearRect(160, 90, 40, 40);
+        cxt.closePath();
+    }
+
+    function draw2(x1, y1, width, height, x2, y2, width1, height1) {
+        cxt.fillRect(x1, y1, width, height);
+        cxt.clearRect(x2, y2, width1, height1)
+    }
+
+    draw2(0, 0, 100, 100, 20, 20, 60, 60);
+    draw(130, 0, 200, 150, 180, 60, 140, 90, 220);
+</script>
+</body>
+</html>

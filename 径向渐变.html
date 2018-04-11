@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    canvas {
+        border: 1px solid red;
+    }
+</style>
+<body>
+<canvas width="800" height="400"></canvas>
+<script>
+    var canvas = document.querySelector("canvas");
+    var cxt = canvas.getContext("2d");
+
+
+
+    cxt.beginPath();
+    var bb = cxt.createRadialGradient(600,150,120,600,150,50);
+    bb.addColorStop(0,'black');
+    bb.addColorStop(1,'yellow');
+    cxt.fillStyle = bb;
+    cxt.arc(600,150,80,0,Math.PI*2);
+    cxt.fill();
+
+
+    cxt.beginPath();
+    var bbcc = cxt.createRadialGradient(300,150,150,200,150,20);
+    bbcc.addColorStop(0,'black');
+    bbcc.addColorStop(1,'yellow');
+    cxt.fillStyle = bbcc;
+    cxt.arc(300,150,100,0,Math.PI*2);
+    cxt.fill();
+
+    cxt.beginPath();
+    var oImg = new Image();
+    var url = 'images/timg.jpg';
+    oImg.src = url;
+    oImg.onload = function(){
+        cxt.drawImage(oImg, 0, 0 , 800 , 400);
+    };
+</script>
+</body>
+</html>

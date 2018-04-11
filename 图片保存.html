@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Document</title>
+    <style type="text/css">
+        canvas {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+<canvas width="500" height="400"></canvas>
+<a href="" download="download"><img src="" alt=""></a>
+<script type="text/javascript">
+    var canvas = document.getElementsByTagName('canvas')[0];
+    var img = document.getElementsByTagName('img')[0];
+    var cxt = canvas.getContext("2d");
+
+    cxt.arc(250, 200, 150, 0, Math.PI * 2);
+    cxt.stroke();
+    var str = canvas.toDataURL('image/png',1);
+    img.src = str;
+
+
+
+
+</script>
+</body>
+</html>

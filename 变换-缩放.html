@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    canvas {
+        border: 1px solid red;
+    }
+</style>
+<body>
+<canvas width="800" height="400"></canvas>
+<script>
+    var canvas = document.querySelector("canvas");
+    var cxt = canvas.getContext("2d");
+    var isScale = 1;
+    cxt.fillRect(10, 10, 50, 50);
+    canvas.onmousewheel = function (e) {
+        var e = e || event;
+        //console.log(e.wheelDelta);
+        cxt.beginPath();
+        cxt.save();
+        cxt.clearRect(0, 0, 800, 400);
+        isScale += e.wheelDelta / 500;
+        console.log(isScale);
+        cxt.scale(isScale, isScale);
+        if (isScale < 0) {
+            cxt.fillRect(10, 10, 50, 50);
+        } else {
+            cxt.fillRect(10 / isScale, 10 / isScale, 50, 50);
+        }
+        cxt.restore();
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas width="800" height="400"></canvas>
+<script>
+    var canvas = document.querySelector("canvas");
+    var cxt = canvas.getContext("2d");
+    var data = [
+        ['米饭', 50],
+        ['面条', 35],
+        ['馒头', 25],
+        ['包子', 15],
+        ['饺子', 15],
+        ['手抓饼', 100]
+    ];
+
+
+    function Circle(x, y, r, data, canvas, color) {
+        this.x = x;
+        this.y = y;
+        this.r = r;
+        this.data = data;
+        this.canvas = canvas;
+        this.color = color || ["aliceblue", "antiquewhite", "aqua", "aquamarine", "azure", "beige", "bisque", "black", "blanchedalmond", "blue"];
+    }
+
+    Circle.prototype = {
+        constructor: Circle,
+        //入口函数
+        _init: function () {
+            this.drawCircle();
+            this.drawLine();
+        },
+        //画圆
+        drawCircle: function () {
+            var sum = 0;
+            data.forEach(function (val, i) {
+                sum += val[1]
+            });
+            // console.log(sum);
+            var startAngle = endAngle = -Math.PI / 2;
+            var base = 360 / sum;
+            var aa = data.map(function (val, i) {
+                return [val[0], val[1] * base * Math.PI / 180];
+                //对象所占的弧度
+            });
+        },
+        //画线
+        drawLine: function () {
+
+
+        }
+    };
+    var c = new Circle();
+    c._init();
+
+    //    var sum = 0;
+    //    data.forEach(function (val, i) {
+    //        sum += val[1]
+    //    });
+    //    console.log(sum);
+    //    var startAngle = -Math.PI / 2;
+    //    var endAngle = -Math.PI / 2;
+    //    var base = 360 / sum;
+    //    color = ["red", "lightseagreen", "lightskyblue", "lightslategray", "lightsteelblue", "yellow"];
+    //    var aa = data.map(function (val, i) {
+    //        return [val[0], val[1] * base * Math.PI / 180];
+    //        //对象所占的弧度
+    //    });
+    //
+    //    for (var i = 0; i < data.length; i++) {
+    //        var x = 200 + Math.cos(endAngle - aa[i][1] / 2) * 130;
+    //        var y = 200 + Math.sin(endAngle - aa[i][1] / 2) * 130;
+    //        cxt.beginPath();
+    //        startAngle = endAngle;
+    //        endAngle = startAngle + data[i][1] * base * Math.PI / 180;
+    //        cxt.moveTo(200, 200);
+    //        cxt.arc(200, 200, 100, startAngle, endAngle);
+    //        cxt.fillStyle = color[i];
+    //        cxt.fill();
+
+    //        cxt.beginPath();
+    //        cxt.moveTo(200, 200);
+    //        cxt.lineTo(x, y);
+    //        cxt.strokeStyle = color[i-1];
+    //        cxt.stroke();
+    //        if (aa[i][1] * 360 / (Math.PI * 2) > 90 && aa[i][1] * 360 / (Math.PI * 2) < 270) {
+    //            cxt.beginPath();
+    //            cxt.textBaseline = 'middle';
+    //            cxt.font = "20px '宋体'";
+    //            cxt.textAlign = "right";
+    //            cxt.fillText(aa[i][0], x, y);
+    //        } else {
+    //            cxt.beginPath();
+    //            cxt.textBaseline = 'middle';
+    //            cxt.font = "20px '宋体'";
+    //            //cxt.textAlign = "right";
+    //            cxt.fillText(aa[i][0], x, y);
+    //        }
+    //    }
+
+</script>
+</body>
+</html>

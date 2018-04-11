@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas width="800" height="400"></canvas>
+<script>
+    var canvas = document.querySelector("canvas");
+    var cxt = canvas.getContext("2d");
+    cxt.font = "36px '宋体'";
+    var str = "意想不到的效果";
+    for(var i = 0; i < 10; i++){
+        cxt.fillText(str, 250 + i , 200 + i);
+    }
+    cxt.beginPath();
+    cxt.fillStyle = 'red';
+    cxt.fillText(str, 250 + i, 200 + i);
+    var o = cxt.measureText(str);
+    console.log(o);
+</script>
+</body>
+</html>

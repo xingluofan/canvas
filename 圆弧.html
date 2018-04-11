@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas width="800" height="500"></canvas>
+<script>
+    var canvas = document.querySelector("canvas");
+    var cxt = canvas.getContext("2d");
+    cxt.beginPath();
+    cxt.moveTo(60 - 4,150 - 4);
+    cxt.lineTo( 100 - 4, 300 - 4);
+    cxt.lineTo( 300 - 4, 300 - 4);
+    cxt.stroke();
+    cxt.beginPath();
+    cxt.moveTo(60 - 4,150 - 4);
+    cxt.fillRect( 60 - 4, 150 - 4, 8, 8 );
+    cxt.fillRect( 100 - 4, 300 - 4, 8, 8 );
+    cxt.fillRect( 300 - 4, 300 - 4, 8, 8 );
+    cxt.arcTo(100 - 4,300 - 4,300 - 4,300 - 4,80);
+    cxt.stroke();
+</script>
+</body>
+</html>

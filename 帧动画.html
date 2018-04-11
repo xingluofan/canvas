@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style type="text/css">
+    canvas {
+        border: 1px solid red;
+    }
+</style>
+<body>
+<canvas width="800" height="400"></canvas>
+<script>
+    var canvas = document.querySelector("canvas");
+    var cxt = canvas.getContext("2d");
+    var img = new Image();
+    var dir = 0;
+    img.src = 'images/souldier.png';
+    window.onkeydown = function (e) {
+        var e = e || event;
+        console.log(e.keyCode);
+        switch (e.keyCode) {
+            case 37:
+                return dir = 1;
+            case 39:
+                return dir = 2;
+            case 38:
+                return dir = 3;
+            case 40:
+                return dir = 0;
+        }
+    };
+    img.onload = function () {
+        var w = img.width;
+        var h = img.height;
+        var i = 0;
+        var left = 100;
+        var top = 50;
+        window.onkeydown = function (e) {
+            var e = e || event;
+            console.log(e.keyCode);
+            switch (e.keyCode) {
+                case 37:
+                    left -= 5;
+                    if(left === -w){
+                        left = canvas.width;
+                    }
+                    return dir = 1;
+                case 39:
+                    left += 5;
+                    if(left === canvas.width){
+                        left = -w;
+                    }
+                    return dir = 2;
+                case 38:
+                    top -= 5;
+                    if(top === -w){
+                        top = canvas.height;
+                    }
+                    return dir = 3;
+                case 40:
+                    top+=5;
+                    if(top === canvas.height){
+                        top = -w;
+                    }
+                    return dir = 0;
+                case 96:
+                    clearInterval(timer);
+                    return i = 0;
+            }
+        };
+        var timer = setInterval(action, 150);
+
+        function action() {
+            cxt.clearRect(0, 0, canvas.width, canvas.height);
+            i++;
+            if (i > 3) {
+                i = 0
+            }
+            cxt.drawImage(img, w / 4 * i, h / 4 * dir, w / 4, h / 4, left, top, w, h);
+        }
+    }
+</script>
+</body>
+</html>

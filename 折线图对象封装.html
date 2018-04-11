@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas width="800" height="400"></canvas>
+<script>
+    var canvas = document.getElementsByTagName('canvas')[0];
+    var ctx = canvas.getContext("2d");
+
+    function DrawLine(ctx, data, padding, arrow, canvas) {
+        //默认原始值
+        this.ctx = ctx;
+        this.arrow = arrow || {width: 20, height: 16};
+        this.padding = padding || {value: 20};
+        this.data = data;
+        this.canvas = canvas;
+
+        this.xVertex = {//x轴顶点坐标
+            x: this.canvas.width - this.padding.value,
+            y: this.canvas.height - this.padding.value
+        };
+        this.yVertex = {//y轴顶点坐标
+            x: this.padding.value,
+            y: this.padding.value
+        };
+        this.origin = {//原点坐标
+            x: this.padding.value,
+            y: this.canvas.height - this.padding.value
+        }
+    }
+
+    //写原型
+    DrawLine.prototype = {
+        constructor: DrawLine,
+        draw: function () {
+            //用来画出你想要的内容
+            this.drawAxis();
+            this.drawArrow();
+            this.drawL();
+        },
+        //画坐标轴
+        drawAxis: function () {
+            this.ctx.beginPath();
+            this.ctx.lineWidth = lineWidth || 2;
+            this.ctx.moveTo(this.xVertex.x, this.xVertex.y);
+            this.ctx.lineTo(this.origin.x, this.origin.y);
+            this.ctx.lineTo(this.yVertex.x, this.yVertex.y);
+            this.ctx.stroke();
+        },
+        drawArrow: function () {
+            //画x轴箭头
+            this.ctx.beginPath();
+            this.ctx.moveTo(this.xVertex.x, this.xVertex.y);
+            this.ctx.lineTo(this.xVertex.x - this.arrow.height, this.xVertex.y - this.arrow.width / 2);
+            this.ctx.lineTo(this.xVertex.x - this.arrow.height / 2, this.xVertex.y);
+            this.ctx.lineTo(this.xVertex.x - this.arrow.height, this.xVertex.y + this.arrow.width / 2);
+            this.ctx.closePath();
+            this.ctx.fill();
+
+            //画y轴箭头
+            this.ctx.beginPath();
+            this.ctx.moveTo(this.yVertex.x, this.yVertex.y);
+            this.ctx.lineTo(this.yVertex.x - this.arrow.width / 2, this.yVertex.y + this.arrow.height);
+            this.ctx.lineTo(this.yVertex.x, this.yVertex.y + this.arrow.height / 2);
+            this.ctx.lineTo(this.yVertex.x + this.arrow.width / 2, this.yVertex.y + this.arrow.height);
+            this.ctx.closePath();
+            this.ctx.fill();
+        },
+        drawL:function () {
+            //在坐标系上画点:
+            //x轴坐标: 原点坐标 + 点坐标
+            //y轴坐标: 原点坐标 - 点坐标
+
+            //x轴有效长度
+            var xWidth = this.oCanvas.width - this.padding.left - this.padding.right - this.arrow.height;
+
+            //y轴有效长度
+            var yWidth = this.oCanvas.height - this.padding.top - this.padding.bottom - this.arrow.height;
+            ctx.beginPath();
+
+            var xPer = xWidth/this.data.length;
+            var dataMax = Math.max.apply(null , this.data);
+            var yPer = yWidth/dataMax;
+            var _this = this;
+
+            this.ctx.moveTo(this.origin.x, this.origin.y);
+            this.data.forEach(function(val , i){
+                _this.ctx.fillRect(_this.origin.x + (i+1)*xPer - 2 , _this.origin.y - yPer*val - 2 ,  4 , 4);
+                _this.ctx.lineTo(_this.origin.x + (i+1)*xPer ,  _this.origin.y - yPer*val);
+                _this.ctx.stroke();
+            });
+        }
+
+    };
+
+    var d = new DrawLine(ctx,[60,200,100,500,300,420] , canvas);
+    console.log(d);
+    d.draw();
+    d.data = [420,300,500,100,200,60];
+    d.draw();
+</script>
+</body>
+</html>
