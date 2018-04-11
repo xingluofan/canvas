@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style type="text/css">
+    canvas{border:1px solid red;}
+    </style>
+</head>
+<body>
+<canvas></canvas>
+<script src="js/sky.js"></script>
+<script type="text/javascript">
+var oCanvas = document.getElementsByTagName('canvas')[0];
+var ctx = oCanvas.getContext("2d");
+var oImg = new Image; //如果实例的构造函数没有参数可以不用写()
+oImg.src = 'images/sky.png';
+
+console.log(ctx);
+
+oImg.onload = function(){
+    var sky1 = new Sky(ctx, oImg, 10);
+    var sky2 = new Sky(ctx, oImg, 10);
+    oCanvas.width = oImg.width;
+    oCanvas.height = oImg.height;
+    setInterval(function(){
+        sky1.draw();
+        sky1.update();
+        sky2.draw();
+        sky2.update();
+    },50)
+}
+</script>
+</body>
+</html>

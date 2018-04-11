@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style type="text/css" media="screen">
+        canvas {
+            border:1px solid;
+        }
+    </style>
+</head>
+<body>
+    <canvas></canvas>
+<script type="text/javascript">
+    function auto() {
+        var oCanvas = document.querySelector("canvas");
+        var ctx = oCanvas.getContext("2d");
+        var score=0;
+        //天空方法
+        function Sky(ctx,oImg,speed){
+            this.ctx = ctx;
+            this.oImg = oImg;
+            this.speed = speed;
+            this.width = oImg.width;
+            this.height = oImg.height;
+            this.x = oImg.width * Sky.len;
+            this.y = 0;
+            Sky.len++;
+        }
+        Sky.len = 0;
+        Sky.prototype = {
+            constructor : Sky,
+            draw: function(){
+                this.ctx.drawImage(this.oImg , this.x , this.y , this.width , this.height);
+            },
+            update : function(){
+                this.x -= this.speed;
+                if(this.x <= -this.width){
+                    this.x = this.width * (Sky.len - 1)
+                }
+            }
+        }
+        //大地方法
+        function Land(ctx,oImg,speed){
+            this.ctx = ctx;
+            this.oImg = oImg;
+            this.speed = speed;
+            this.width = oImg.width;
+            this.height = oImg.height;
+            this.x = oImg.width * Land.len;
+            this.y = this.ctx.canvas.height - this.height;
+            Land.len++;
+        }
+        Land.len = 0;
+        Land.prototype = {
+            constructor : Land,
+            draw: function(){
+                this.ctx.drawImage(this.oImg , this.x , this.y , this.width , this.height);
+            },
+            update : function(){
+                this.x -= this.speed;
+                if(this.x <= -this.width){
+                    this.x = (this.width) * (Land.len-1)
+                }
+            }
+        }
+        //加载图片方法
+        function imgLoaded(imgUrl, fn){
+            var imgObj = {};
+            var oTmepImg = null;
+            var loadedNum = imgNum = 0;
+
+            for(var k in imgUrl){
+                imgNum++;
+                oTmepImg = new Image;
+                oTmepImg.src = imgUrl[k];
+                imgObj[k] = oTmepImg;
+
+                oTmepImg.onload = function(){
+                    loadedNum++;
+                    if(loadedNum === imgNum){
+                        fn && fn(imgObj);
+                    }
+                }
+            }
+        }
+        //画管子的方法
+        function Pipe(ctx , imgUp , imgDown , iLandHeight , iSpace , iSpeed){
+            Pipe.len++;
+            this.ctx = ctx;
+            this.imgUp = imgUp;
+            this.imgDown = imgDown;
+            this.landHeight = iLandHeight;
+            this.space = iSpace;
+            this.speed = iSpeed;
+            this.width = this.imgUp.width;
+            this.height = this.imgUp.height;
+            this.x = 300 + this.width*3.5*(Pipe.len-1);
+            this.minHeight = 80;
+            //150   (600 - 150 -112 -100)最大高度
+            this._init();
+        }
+        Pipe.len = 0;
+        Pipe.prototype = {
+            constructor : Pipe,
+
+            _init : function(){
+                this.maxHeight = this.ctx.canvas.height - this.space - this.landHeight - this.minHeight;
+                //上边管子的高度
+                this.downHeight = this.getRandom(this.maxHeight,this.minHeight);
+                //上边管子的y轴坐标
+                this.downY = this.downHeight - this.height;
+                //下边管子的y轴坐标
+                this.upY = this.downHeight +this.space;
+            },
+
+            getRandom : function(num1,num2){
+                return Math.floor(Math.random()*(num1-num2) + num2);
+            },
+
+            draw : function(){
+                this.ctx.drawImage(this.imgDown, this.x, this.downY , this.width , this.height);
+                this.ctx.drawImage(this.imgUp, this.x ,this.upY , this.width , this.height);
+                this.drawPath();
+
+
+            },
+
+            drawPath : function(){
+                this.ctx.rect(this.x, this.downY, this.width, this.height);
+                this.ctx.rect(this.x, this.upY, this.width, this.height);
+                this.ctx.strokeStyle = "blue";
+                this.ctx.stroke();
+            },
+
+            update : function(){
+                this.x -= this.speed;
+                if(this.x <= -this.width){
+                    this._init();
+                    this.x = this.width*3.5*Pipe.len-this.width;
+                }
+            }
+        }
+        function Bird(ctx , oImg , wFps , hFps , x , y){
+            this.ctx = ctx;
+            this.img = oImg;
+            //横向图片帧数
+            this.wFps = wFps;
+            //纵向图片帧数
+            this.hFps = hFps;
+            //横向当前帧数
+            this.fps = 0;
+            //没有纵向帧我们就不定义纵向档期帧数
+
+            //鸟图片单帧宽高
+            this.width = this.img.width/this.wFps;
+            this.height = this.img.height;
+            this.x = x;
+            this.y = y;
+            //y轴下落速度初始值
+            this.speed = 2;
+            //y轴下落加速度
+            this.speedPlus = 0.4;
+        }
+        Bird.prototype = {
+            constructor : Bird,
+            draw : function(){
+                //确定最小偏转角度 : 速度为1时的偏转角度
+                var baseAngle = 10*Math.PI/180;
+                //再写个偏转最大值45
+                var maxAngle = 45*Math.PI/180;
+                var birdAngle = baseAngle*this.speed;
+                if(birdAngle > maxAngle){
+                    birdAngle = maxAngle;
+                }
+                this.ctx.save();
+                this.ctx.translate(this.x + this.width/2, this.y + this.height/2);
+                // console.log(birdAngle);
+                this.ctx.rotate(birdAngle);
+
+                this.ctx.drawImage(this.img , this.width*this.fps , 0 , this.width , this.height, -this.width/2 , -this.height/2 , this.width , this.height);
+                // this.ctx.strokeRect(-this.width/2, -this.height/2, this.width, this.height);
+
+                this.ctx.restore();
+
+            },
+
+            update : function(){
+                this.fps++;
+                if(this.fps === this.wFps){
+                    this.fps = 0
+                }
+                this.y += this.speed;
+                this.speed += this.speedPlus;
+                this._bindEvent();
+
+
+            },
+
+            _bindEvent : function(){
+                var _this = this;
+                _this.ctx.canvas.onclick = function(){
+                    _this.speed = -5;
+                }
+            }
+        }
+        //img地址
+        var imgUrl = {
+            sky:'images/sky.png',
+            land:'images/land.png',
+            bird:'images/bird.png',
+            pipeUp:'images/pipeUp.png',
+            pipeDown:'images/pipeDown.png'
+        }
+        function fn(imgObj){
+                //实例化天空大地
+                var sky1 = new Sky(ctx, imgObj.sky, 3);
+                var sky2 = new Sky(ctx, imgObj.sky, 3);
+                oCanvas.width = imgObj.sky.width;
+                oCanvas.height = imgObj.sky.height;
+                var land1 = new Land(ctx , imgObj.land , 3);
+                var land2 = new Land(ctx , imgObj.land , 3);
+                var land3 = new Land(ctx , imgObj.land , 3);
+                var land4 = new Land(ctx , imgObj.land , 3);
+
+
+
+                //管子
+                var pipe1 = new Pipe(ctx, imgObj.pipeUp , imgObj.pipeDown , 112 , 150 , 3);
+                var pipe2 = new Pipe(ctx, imgObj.pipeUp , imgObj.pipeDown , 112 , 150 , 3);
+                var pipe3 = new Pipe(ctx, imgObj.pipeUp , imgObj.pipeDown , 112 , 150 , 3);
+                var pipe4 = new Pipe(ctx, imgObj.pipeUp , imgObj.pipeDown , 112 , 150 , 3);
+                var pipe5 = new Pipe(ctx, imgObj.pipeUp , imgObj.pipeDown , 112 , 150 , 3);
+                var pipe6 = new Pipe(ctx, imgObj.pipeUp , imgObj.pipeDown , 112 , 150 , 3);
+
+                var bird = new Bird(ctx , imgObj.bird , 3 , 0 , 10 , 10);
+
+
+                //计时器
+                var timer=setInterval(function(){
+                    //两个天空
+                    sky1.draw();
+                    sky1.update();
+                    sky2.draw();
+                    sky2.update();
+
+                    ctx.beginPath();
+                    pipe1.draw();
+                    pipe2.draw();
+                    pipe3.draw();
+                    pipe4.draw();
+                    pipe5.draw();
+                    pipe6.draw();
+                    pipe1.update();
+                    pipe2.update();
+                    pipe3.update();
+                    pipe4.update();
+                    pipe5.update();
+                    pipe6.update();
+
+
+
+                    //四个大地
+                    land1.draw();
+                    land1.update();
+                    land2.draw();
+                    land2.update();
+                    land3.draw();
+                    land3.update();
+                    land4.draw();
+                    land4.update();
+                    // console.log(pipe1.x);
+// -264,900,717,534,354,171,12,192
+                    //小鸟
+                    bird.draw();
+                    bird.update();
+                    ctx.fillRect(bird.x+bird.width*3/5,bird.y+23,2,2);
+                    ctx.fillRect(bird.x+bird.width*3/5,bird.y+13,2,2);
+                    ctx.fillRect(bird.x+bird.width*1/5,bird.y+18,2,2);
+
+                    if(bird.y < -bird.height || bird.y > oCanvas.height - land1.height - bird.height/2 || ctx.isPointInPath(bird.x+bird.width*3/5,bird.y+13) || ctx.isPointInPath(bird.x+bird.width*3/5,bird.y+23) || ctx.isPointInPath(bird.x+bird.width*1/5,bird.y+18)){
+
+                        clearInterval(timer);
+                        ctx.fillStyle = "rgba(0,0,0,0.5)";
+                        ctx.fillRect(0, 0, 800, 600);
+                        ctx.beginPath();
+                        ctx.font = '120px "宋体"';
+                        ctx.fillStyle = "rgba(255,255,255,0.5)";
+                        ctx.textAlign = 'center';
+                        ctx.textBaseLine = 'middle';
+                        ctx.fillText("GAME OVER", 400, 300);
+                        ctx.canvas.onclick = function () {
+                            auto();
+                        }
+                    }
+
+                },30);
+            }
+        imgLoaded(imgUrl , fn);
+    }
+    auto();
+
+
+
+
+
+
+</script>
+</body>
+</html>

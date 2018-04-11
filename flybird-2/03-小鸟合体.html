@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style type="text/css">
+    canvas{border:1px solid red;}
+    </style>
+</head>
+<body>
+<canvas></canvas>
+<script src="js/tool.js"></script>
+<script src="js/sky.js"></script>
+<script src="js/land.js"></script>
+<script src="js/pipe.js"></script>
+<script src="js/bird.js"></script>
+<script src="js/gameOver.js"></script>
+<script type="text/javascript">
+var oCanvas = document.getElementsByTagName('canvas')[0];
+var ctx = oCanvas.getContext("2d");
+var imgUrl = {
+    sky:'images/sky.png',
+    land:'images/land.png',
+    bird:'images/bird.png',
+    pipeUp:'images/pipeUp.png',
+    pipeDown:'images/pipeDown.png'
+}
+
+imgLoaded(imgUrl , function(imgObj){
+    var sky1 = new Sky(ctx, imgObj.sky, 3);
+    var sky2 = new Sky(ctx, imgObj.sky, 3);
+    oCanvas.width = imgObj.sky.width;
+    oCanvas.height = imgObj.sky.height;
+
+    var land1 = new Land(ctx , imgObj.land , 3);
+    var land2 = new Land(ctx , imgObj.land , 3);
+    var land3 = new Land(ctx , imgObj.land , 3);
+    var land4 = new Land(ctx , imgObj.land , 3);
+
+    var pipe1 = new Pipe(ctx, imgObj.pipeUp , imgObj.pipeDown , 112 , 150 , 3);
+    var pipe2 = new Pipe(ctx, imgObj.pipeUp , imgObj.pipeDown , 112 , 150 , 3);
+    var pipe3 = new Pipe(ctx, imgObj.pipeUp , imgObj.pipeDown , 112 , 150 , 3);
+    var pipe4 = new Pipe(ctx, imgObj.pipeUp , imgObj.pipeDown , 112 , 150 , 3);
+    var pipe5 = new Pipe(ctx, imgObj.pipeUp , imgObj.pipeDown , 112 , 150 , 3);
+    var pipe6 = new Pipe(ctx, imgObj.pipeUp , imgObj.pipeDown , 112 , 150 , 3);
+
+    //var bird = new Bird(ctx , imgObj.bird , 3 , 0 , 30 , 30);
+    var bird = getBird(ctx , imgObj.bird , 3 , 0 , 30 , 30);
+    var over = getOver(ctx);
+    var timer = setInterval(function(){
+        sky1.draw();
+        sky1.update();
+        sky2.draw();
+        sky2.update();
+
+        ctx.beginPath();
+        pipe1.draw();
+        pipe1.update();
+        pipe2.draw();
+        pipe2.update();
+        pipe3.draw();
+        pipe3.update();
+        pipe4.draw();
+        pipe4.update();
+        pipe5.draw();
+        pipe5.update();
+        pipe6.draw();
+        pipe6.update();
+
+        land1.draw();
+        land1.update();
+        land2.draw();
+        land2.update();
+        land3.draw();
+        land3.update();
+        land4.draw();
+        land4.update();
+        bird.draw();
+        bird.update();
+
+        //console.log(bird.y);
+        //小鸟飞上云端,潜入大地游戏结束
+        //
+
+            },50);
+
+});
+//作业:
+//1.写到鸟会动
+//2.判断鸟飞出天空 砸入大地 当前 游戏结束
+//3.研究一下怎么撞柱子上 : 提示有个方法能够判断某个坐标是否在路径中
+</script>
+</body>
+</html>

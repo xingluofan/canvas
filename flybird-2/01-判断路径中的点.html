@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style type="text/css">
+    canvas{border:1px solid red;}
+    </style>
+</head>
+<body>
+<canvas width="500" height="500"></canvas>
+<script type="text/javascript">
+var oCanvas = document.getElementsByTagName('canvas')[0];
+var ctx = oCanvas.getContext("2d");
+//判断坐标是否在当前路径中
+
+oCanvas.onclick = function(e){
+    var e = e || event;
+    x = e.clientX - this.offsetLeft;
+    y = e.clientY - this.offsetTop;
+    if(ctx.isPointInPath(x, y)){
+        console.log(true);
+    }else{
+        console.log(false);
+    }
+}
+
+
+ctx.arc(25, 25, 25, 0, 2*Math.PI);
+ctx.stroke();
+ctx.beginPath();
+ctx.arc(80, 80, 25, 0, 2*Math.PI);
+ctx.stroke();
+
+ctx.beginPath();
+ctx.rect(100, 100, 100, 100);
+ctx.stroke();
+
+//对于strokeRect fillRect 此方法不生效
+</script>
+</body>
+</html>

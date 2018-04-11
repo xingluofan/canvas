@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style type="text/css">
+    canvas{border:1px solid red;}
+    </style>
+</head>
+<body>
+<canvas></canvas>
+<script src="js/tool.js"></script>
+<script src="js/pipe.js"></script>
+<script type="text/javascript">
+var oCanvas = document.getElementsByTagName('canvas')[0];
+var ctx = oCanvas.getContext("2d");
+oCanvas.width = 800;
+oCanvas.height = 600;
+var imgUrl = {
+    sky:'images/sky.png',
+    land:'images/land.png',
+    bird:'images/bird.png',
+    pipeUp:'images/pipeUp.png',
+    pipeDown:'images/pipeDown.png'
+}
+
+imgLoaded(imgUrl , function(imgObj){
+    var pipe1 = new Pipe(ctx, imgObj.pipeUp , imgObj.pipeDown , 112 , 150 , 3);
+    var pipe2 = new Pipe(ctx, imgObj.pipeUp , imgObj.pipeDown , 112 , 150 , 3);
+    var pipe3 = new Pipe(ctx, imgObj.pipeUp , imgObj.pipeDown , 112 , 150 , 3);
+    var pipe4 = new Pipe(ctx, imgObj.pipeUp , imgObj.pipeDown , 112 , 150 , 3);
+    var pipe5 = new Pipe(ctx, imgObj.pipeUp , imgObj.pipeDown , 112 , 150 , 3);
+    var pipe6 = new Pipe(ctx, imgObj.pipeUp , imgObj.pipeDown , 112 , 150 , 3);
+
+    setInterval(function(){
+        pipe1.draw();
+        pipe1.update();
+        pipe2.draw();
+        pipe2.update();
+        pipe3.draw();
+        pipe3.update();
+        pipe4.draw();
+        pipe4.update();
+        pipe5.draw();
+        pipe5.update();
+        pipe6.draw();
+        pipe6.update();
+    },50)
+})
+</script>
+</body>
+</html>

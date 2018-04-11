@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+</head>
+<body>
+<canvas></canvas>
+<script src="js/tool.js"></script>
+<script src="js/sky.js"></script>
+<script src="js/land.js"></script>
+<script src="js/pipe.js"></script>
+<script src="js/bird.js"></script>
+<script src="js/gameOver.js"></script>
+<script src="js/gameScene.js"></script>
+<script type="text/javascript">
+var oCanvas = document.getElementsByTagName('canvas')[0];
+var ctx = oCanvas.getContext("2d");
+var imgUrl = {
+    sky:'images/sky.png',
+    land:'images/land.png',
+    bird:'images/bird.png',
+    pipeUp:'images/pipeUp.png',
+    pipeDown:'images/pipeDown.png'
+}
+imgLoaded(imgUrl,function(imgObj){
+    //
+    oCanvas.width = imgObj.sky.width;
+    oCanvas.height = imgObj.sky.height;
+    var scene = getScene(ctx , imgObj);
+    var over = getOver( ctx );
+
+    scene.addListen(function(){
+        clearInterval(timer);
+        over.draw();
+    });
+
+
+    var timer = setInterval(function(){
+        scene.draw();
+    },30)
+})
+
+</script>
+</body>
+</html>

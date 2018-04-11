@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+</head>
+<body>
+<script type="text/javascript">
+var jianTing = {
+    listener : {
+        birdDeath : [],
+        birdFly : []
+    },//存的就是所有要监听的方法
+
+    addBirdDeath : function(){
+        this.listener.birdDeath.forEach(function(listen){
+            listen();
+        })
+    },
+    addBirdFly : function(){
+        this.listener.birdFly.forEach(function(listen){
+            listen();
+        })
+    }
+}
+
+jianTing.listener.birdDeath.push(function(){
+    console.log("你的鸟死了");
+});
+jianTing.listener.birdDeath.push(function(){
+    console.log("这是一件开心的事情");
+});
+jianTing.listener.birdDeath.push(function(){
+    console.log("观众们都笑了");
+});
+
+jianTing.listener.birdFly.push(function(){
+    console.log("你的鸟飞了");
+})
+jianTing.listener.birdFly.push(function(){
+    console.log("这是一件悲伤的事情");
+})
+jianTing.listener.birdFly.push(function(){
+    console.log("观众们都哭了");
+})
+jianTing.addBirdDeath();
+jianTing.addBirdFly();
+</script>
+</body>
+</html>

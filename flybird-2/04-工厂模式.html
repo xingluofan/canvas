@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+</head>
+<body>
+<script type="text/javascript">
+function Person(name, age){
+    this.name = name;
+    this.age = age;
+}
+
+Person.prototype.say = function(){
+    console.log("我叫:" + this.name + " 今年:" + this.age);
+}
+
+function f(name,age){
+    return new Person(name,age);
+}
+var p = f("小冰冰" , 3);
+p.say();
+</script>
+</body>
+</html>

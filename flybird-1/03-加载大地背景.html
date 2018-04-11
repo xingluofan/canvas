@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style type="text/css">
+    canvas{border:1px solid red;}
+    </style>
+</head>
+<body>
+<canvas></canvas>
+<script src="js/land.js"></script>
+<script type="text/javascript">
+var oCanvas = document.getElementsByTagName('canvas')[0];
+var ctx = oCanvas.getContext("2d");
+var oImg = new Image;
+oImg.src = 'images/land.png';
+
+oImg.onload = function(){
+    oCanvas.width = 800;
+    oCanvas.height = 600;
+
+    var land1 = new Land(ctx , oImg , 3);
+    var land2 = new Land(ctx , oImg , 3);
+    var land3 = new Land(ctx , oImg , 3);
+    var land4 = new Land(ctx , oImg , 3);
+    setInterval(function(){
+        land1.draw();
+        land1.update();
+
+        land2.draw();
+        land2.update();
+
+        land3.draw();
+        land3.update();
+
+        land4.draw();
+        land4.update();
+    },50)
+
+
+}
+
+</script>
+</body>
+</html>

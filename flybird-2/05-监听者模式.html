@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+</head>
+<body>
+<script type="text/javascript">
+/*
+监听者模式用来两个对象之间传递消息
+*/
+var jianTing = {
+    listener : [],//存的就是所有要监听的方法
+
+    birdDeath : function(){
+        this.listener.forEach(function(listen){
+            listen();
+        })
+    }
+}
+
+jianTing.listener.push(function(){
+    console.log("你的鸟死了");
+});
+jianTing.listener.push(function(){
+    console.log("这是一件开心的事情");
+});
+jianTing.listener.push(function(){
+    console.log("观众们都笑了");
+});
+jianTing.birdDeath();
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+</head>
+<body>
+<div id="div">这是内容</div>
+<script type="text/javascript">
+/*
+* 四种调用模式：
+* 1、函数调用 === window
+* 2、方法调用 === 宿主
+* 3、构造器   === 实例对象
+* 4、上下文（间接调用） ===  任意 (call apply)
+*/
+function fn(){
+    console.log(this);
+}
+obj = {
+    fn : fn
+}
+o = {
+    obj : {
+        f : fn
+    }
+}
+fn(); // window
+obj.fn(); //obj
+o.obj.f(); //o.obj
+new fn();      //实例对象
+new o.obj.f(); //实例对象
+var timer = setTimeout(function(){
+    console.log(this);    //window;
+},1000);
+document.getElementById('div').onclick = fn; // div
+fn.call([1,2,3]);   //数组
+fn.apply({val:123});//对象
+</script>
+</body>
+</html>
